@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 209.06">
+  <defs>
+    <style>
+      .cls-1 {
+        font-family: SFPro-ExpandedMedium, 'SF Pro';
+        font-size: 141px;
+        font-variation-settings: 'wdth' 132, 'opsz' 28, 'wght' 540;
+        font-weight: 500;
+      }
+
+      .cls-2 {
+        letter-spacing: 0em;
+      }
+
+      .cls-3 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-4 {
+        letter-spacing: -.03em;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <text class="cls-1" transform="translate(0 120.18)"><tspan class="cls-3" x="0" y="0">S</tspan><tspan x="108.23" y="0">TRU</tspan><tspan class="cls-4" x="453.44" y="0">C</tspan><tspan class="cls-2" x="574.89" y="0">TURE</tspan></text>
+  </g>
+</svg>
