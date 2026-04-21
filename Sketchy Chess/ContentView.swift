@@ -11,14 +11,14 @@ internal import Combine
 typealias Colour = Color
 
 class ChessGame: ObservableObject {
-    @Published var gameData: [[(piece: ChessPiece, player: Player)?]]
+	@Published var gameData: [[(piece: ChessPiece, player: Player)?]]
 	@AppStorage("chess-game-enforceTurns") var enforceTurns = false
 	@AppStorage("chess-game-autoFlipBoard") var autoFlipBoard = true
-	@AppStorage("chess-game-whoseTurn") var whoseTurn = Player.white
+//	@AppStorage("chess-game-whoseTurn") var whoseTurn = Player.white
 
-    init(board: [[(piece: ChessPiece, player: Player)?]] = defaultLayout) {
-        self.gameData = board
-    }
+	init(board: [[(piece: ChessPiece, player: Player)?]] = defaultLayout) {
+		self.gameData = board
+	}
 
 }
 
@@ -35,21 +35,21 @@ enum Player: String {
 }
 enum ChessPiece: String {
 	case pawn
-	case Rook
+	case rook
 	case knight
-	case Bishop
-	case Queen
-	case King
+	case bishop
+	case queen
+	case king
 }
 
 // Codable-friendly representation for saving/loading board state
 private struct CodableCell: Codable {
-    let piece: String?
-    let player: String?
+	let piece: String?
+	let player: String?
 }
 
 private struct CodableBoard: Codable {
-    let rows: [[CodableCell]]
+	let rows: [[CodableCell]]
 }
 
 //MARK: Subscript board coordinates
@@ -75,14 +75,14 @@ let defaultLayout: [
 	[(ChessPiece, Player)?]
 ]
 = [
-	[	(.Rook, .black),	(.knight, .black), (.Bishop, .black), (.Queen, .black), (.King, .black), (.Bishop, .black), (.knight, .black), (.Rook, .black)	],
+	[	(.rook, .black),	(.knight, .black), (.bishop, .black), (.queen, .black), (.king, .black), (.bishop, .black), (.knight, .black), (.rook, .black)	],
 	[	(.pawn, .black),	(.pawn, .black), (.pawn, .black), (.pawn, .black), (.pawn, .black), (.pawn, .black), (.pawn, .black), (.pawn, .black)	],
 	blankRow,
 	blankRow,
 	blankRow,
 	blankRow,
 	[	(.pawn, .white),	(.pawn, .white), (.pawn, .white), (.pawn, .white), (.pawn, .white), (.pawn, .white), (.pawn, .white), (.pawn, .white)	],
-	[	(.Rook, .white),	(.knight, .white), (.Bishop, .white), (.Queen, .white), (.King, .white), (.Bishop, .white), (.knight, .white), (.Rook, .white)	],
+	[	(.rook, .white),	(.knight, .white), (.bishop, .white), (.queen, .white), (.king, .white), (.bishop, .white), (.knight, .white), (.rook, .white)	],
 ]
 
 
@@ -97,7 +97,7 @@ fileprivate struct PromotionPopover: View {
 
 	@ObservedObject var chessGame: ChessGame
 	@Binding var selected: (x: Int, y: Int)?
-//	@Binding var dottedSel: Bool
+	//	@Binding var dottedSel: Bool
 	let squareIsDark: Bool
 
 	var save: () -> Void
@@ -105,33 +105,33 @@ fileprivate struct PromotionPopover: View {
 	var body: some View {
 		VStack {
 			let piece: (piece: ChessPiece, player: Player)? = if let s = selected { chessGame.gameData[s] } else { nil }
-//			HStack {
-//				let pieceName: String? = { if let p = piece { return p.piece.rawValue } else { return nil } }()
-//				Rectangle()
-//					.fill(squareIsDark ? .dark : .light )
-//					.overlay {
-//						if let p = pieceName {
-//							if piece?.player == .black {
-//								Image(p)
-//									.resizable()
-//									.padding(3)
-//									.colorInvert()
-//							} else {
-//								Image(p)
-//									.resizable()
-//									.padding(3)
-//							}
-//						}
-//					}
-//					.frame(minWidth: 30, minHeight: 30)
-//					.aspectRatio(1, contentMode: .fit)
-//
-//				Spacer()
-//			}
+			//			HStack {
+			//				let pieceName: String? = { if let p = piece { return p.piece.rawValue } else { return nil } }()
+			//				Rectangle()
+			//					.fill(squareIsDark ? .dark : .light )
+			//					.overlay {
+			//						if let p = pieceName {
+			//							if piece?.player == .black {
+			//								Image(p)
+			//									.resizable()
+			//									.padding(3)
+			//									.colorInvert()
+			//							} else {
+			//								Image(p)
+			//									.resizable()
+			//									.padding(3)
+			//							}
+			//						}
+			//					}
+			//					.frame(minWidth: 30, minHeight: 30)
+			//					.aspectRatio(1, contentMode: .fit)
+			//
+			//				Spacer()
+			//			}
 
 
 			HStack {
-				ForEach( ["Queen", "Rook", "Bishop", "knight"], id: \.self) { p in
+				ForEach( ["queen", "rook", "bishop", "knight"], id: \.self) { p in
 					Rectangle()
 						.fill(squareIsDark ? .dark : .light )
 						.overlay {
@@ -166,7 +166,7 @@ fileprivate struct PromotionPopover: View {
 								withAnimation {
 									selected = nil
 								}
-//								dottedSel = false
+								//								dottedSel = false
 							}
 							save()
 						}
@@ -194,7 +194,7 @@ fileprivate struct GridBox: View {
 
 	var piece: Binding<(piece: ChessPiece, player: Player)?>
 	var isSelected: Binding<Bool>
-//	@Binding var dottedSel: Bool
+	//	@Binding var dottedSel: Bool
 
 	let /*square*/isDark: Bool
 
@@ -205,7 +205,7 @@ fileprivate struct GridBox: View {
 		Rectangle()
 			.fill(isDark ? .dark : .light )
 			.strokeBorder(selColour, style: .init(lineWidth: isSelected.wrappedValue ? 3 : 0) )//, dash: dottedSel ? [10,5] : [CGFloat]() ) )
-//		, dash: dottedSel ? 2 : 0
+		//		, dash: dottedSel ? 2 : 0
 			.overlay {
 				if let p = pieceName {
 					if piece.wrappedValue?.player == .black {
@@ -237,7 +237,7 @@ fileprivate struct Row: View {
 	@ObservedObject var chessGame: ChessGame
 	@Binding var promoting: (x: Int, y: Int)?
 	@Binding var selected: (x: Int, y: Int)?
-//	@Binding var dottedSel: Bool
+	//	@Binding var dottedSel: Bool
 
 	@Environment(\.undoManager) var undoManager
 	let yy: Int
@@ -258,7 +258,7 @@ fileprivate struct Row: View {
 				}
 			}
 		}
-		chessGame.whoseTurn.toggle()
+//		chessGame.whoseTurn.toggle()
 	}
 
 
@@ -292,23 +292,23 @@ fileprivate struct Row: View {
 					//MARK: Register undo
 					undoManager?.registerUndo(withTarget: chessGame) { target in
 
-//						selColour = .red
-//						withAnimation {
-//							selected = (me.x-1, me.y-1)
-//						}
+						//						selColour = .red
+						//						withAnimation {
+						//							selected = (me.x-1, me.y-1)
+						//						}
 						withAnimation {
 							chessGame.gameData[me.y-1][me.x-1] = myContent
 							chessGame.gameData[origin.y-1][origin.x-1] = originContent
-//							selected = nil
-//							selColour = .blue
+							//							selected = nil
+							//							selColour = .blue
 						}
-						chessGame.whoseTurn.toggle()
+//						chessGame.whoseTurn.toggle()
 					}
 
-//					prevMove = (
-//						(origin, originContent),
-//						(me, myContent)
-//					)
+					//					prevMove = (
+					//						(origin, originContent),
+					//						(me, myContent)
+					//					)
 
 					selected = nil
 
@@ -317,8 +317,8 @@ fileprivate struct Row: View {
 							originContent.player == .white && me.y == 1 ||
 								originContent.player == .black && me.y == 8
 						{
-//							selColour = .green
-//							dottedSel = true
+							//							selColour = .green
+							//							dottedSel = true
 							withAnimation {
 								selected = me
 							}
@@ -334,9 +334,9 @@ fileprivate struct Row: View {
 
 		} else {
 			if myContent != nil {
-				if chessGame.enforceTurns {
-					guard chessGame.whoseTurn == myContent?.player else { return }
-				}
+//				if chessGame.enforceTurns {
+//					guard chessGame.whoseTurn == myContent?.player else { return }
+//				}
 				selected = me
 			}
 		}
@@ -397,7 +397,7 @@ fileprivate struct Row: View {
 				isFlipped: $isFlipped,
 				piece: pieceBinding,
 				isSelected: isSelectedBinding,
-//				dottedSel: $dottedSel,
+				//				dottedSel: $dottedSel,
 				isDark: isDark
 			)
 
@@ -406,13 +406,13 @@ fileprivate struct Row: View {
 					isFlipped: $isFlipped,
 					chessGame: chessGame,
 					selected: $selected,
-//					dottedSel: $dottedSel,
+					//					dottedSel: $dottedSel,
 					squareIsDark: isDark,
 					save: save
 				)
-					.padding()
-					.presentationCompactAdaptation(.popover)
-					.interactiveDismissDisabled()
+				.padding()
+				.presentationCompactAdaptation(.popover)
+				.interactiveDismissDisabled()
 			}
 
 			.onTapGesture {
@@ -436,34 +436,34 @@ struct ContentView: View {
 
 	@State var selected: (x: Int, y: Int)? = nil
 	@State var promoting: (x: Int, y: Int)? = nil
-//	@State var dottedSel = false
+	//	@State var dottedSel = false
 
 	@Environment(\.undoManager) var undoManager
-//	@State var prevMove: (
-//		origin: (
-//			coords: (x: Int, y: Int),
-//			content: (piece: ChessPiece, player: Player)
-//		),
-//		to: (
-//			coords: (x: Int, y: Int),
-//			oldContent: (piece: ChessPiece, player: Player)?
-//		)
-//	)? = nil
+	//	@State var prevMove: (
+	//		origin: (
+	//			coords: (x: Int, y: Int),
+	//			content: (piece: ChessPiece, player: Player)
+	//		),
+	//		to: (
+	//			coords: (x: Int, y: Int),
+	//			oldContent: (piece: ChessPiece, player: Player)?
+	//		)
+	//	)? = nil
 	@State var confirmUndo = false
 	@State var confirmRedo = false
 
-    private func fromCodableBoard(_ codable: CodableBoard) -> [[(piece: ChessPiece, player: Player)?]] {
-        return codable.rows.map { row in
-            row.map { c in
-                if let pieceRaw = c.piece, let playerRaw = c.player, let piece = ChessPiece(rawValue: pieceRaw) {
-                    let player: Player = (playerRaw == "white") ? .white : .black
-                    return (piece: piece, player: player)
-                } else {
-                    return nil
-                }
-            }
-        }
-    }
+	private func fromCodableBoard(_ codable: CodableBoard) -> [[(piece: ChessPiece, player: Player)?]] {
+		return codable.rows.map { row in
+			row.map { c in
+				if let pieceRaw = c.piece, let playerRaw = c.player, let piece = ChessPiece(rawValue: pieceRaw) {
+					let player: Player = (playerRaw == "white") ? .white : .black
+					return (piece: piece, player: player)
+				} else {
+					return nil
+				}
+			}
+		}
+	}
 	private func toCodableBoard(_ board: [[(piece: ChessPiece, player: Player)?]]) -> CodableBoard {
 		let rows = board.map { row in
 			row.map { cell in
@@ -477,7 +477,7 @@ struct ContentView: View {
 		return CodableBoard(rows: rows)
 	}
 
-    var body: some View {
+	var body: some View {
 		NavigationStack {
 			ZStack {
 
@@ -488,33 +488,39 @@ struct ContentView: View {
 					}
 
 				VStack {
+					Spacer()
+					VStack {
+						ForEach(Array(1...8), id: \.self) { yy in
 
-					ForEach(Array(1...8), id: \.self) { yy in
-
-						HStack {
-							Row(
-								isFlipped: $boardIsFlipped,
-								chessGame: chessGame,
-								promoting: $promoting,
-								selected: $selected,
-//								dottedSel: $dottedSel,
-//								prevMove: $prevMove,
-								yy: yy,
-								toCodableBoard: toCodableBoard
-							)
-						}
-
-					}
-
-				}.aspectRatio(1, contentMode: .fit)
-					.onChange(of: chessGame.enforceTurns) {_, new in
-						if new == true, let sel = selected {
-							let data = chessGame.gameData[sel]
-							if data?.player != chessGame.whoseTurn {
-								selected = nil
+							HStack {
+								Row(
+									isFlipped: $boardIsFlipped,
+									chessGame: chessGame,
+									promoting: $promoting,
+									selected: $selected,
+									//								dottedSel: $dottedSel,
+									//								prevMove: $prevMove,
+									yy: yy,
+									toCodableBoard: toCodableBoard
+								)
 							}
 						}
-					}
+					}.aspectRatio(1, contentMode: .fit)
+
+					Spacer()
+					Label("Certified 100% Digitech Didn't Help", systemImage: "checkmark.seal")
+						.foregroundStyle(.quinary)
+						.padding(.bottom, 5)
+
+				}
+//					.onChange(of: chessGame.enforceTurns) {_, new in
+//						if new == true, let sel = selected {
+//							let data = chessGame.gameData[sel]
+//							if data?.player != chessGame.whoseTurn {
+//								selected = nil
+//							}
+//						}
+//					}
 			}
 			.onAppear {
 				if let data = UserDefaults.standard.data(forKey: "chess-data-json") {
@@ -525,90 +531,49 @@ struct ContentView: View {
 			}
 			.padding()
 
-//			.alert("Redo Move", isPresented: $confirmRedo) {
-//				Button("Redo") {
-//					withAnimation {
-////						if let to = prevMove?.to,
-////						   let origin = prevMove?.origin {
-////
-////							chessGame.gameData[origin.coords.y-1][origin.coords.x-1] = origin.content
-////							chessGame.gameData[to.coords.y-1][to.coords.x-1] = to.oldContent
-////							prevMove = nil
-////							selected = nil
-////						}
-//						if undoManager?.canRedo ?? false {
-//							undoManager?.redo()
-//						}
-//					}
-//				}.tint(.blue)
-//				Button("Cancel", role: .cancel) {
-//					confirmRedo = false
-//				}
-//			}
-
 			.toolbar {
-				ToolbarItem(placement: .topBarLeading) {
-					Button {
-						withAnimation {
-							boardIsFlipped.toggle()
-						}
-					} label: {
+				ToolbarItemGroup(placement: .topBarLeading) {
+					Button(action: {
+						withAnimation { boardIsFlipped.toggle() }
+					}) {
 						Label("Flip Board", systemImage: "arrow.up.arrow.down")
-							.rotationEffect(Angle(degrees: boardIsFlipped ? 180 : 0))
 					}
 				}
 
-				ToolbarItem(placement: .topBarTrailing) {
-					Button("Undo", systemImage: "arrow.uturn.backward") {
+				ToolbarItemGroup(placement: .topBarTrailing) {
+					Button(action: {
 						confirmUndo = true
-					}.disabled(!(undoManager?.canUndo ?? false))//(prevMove==nil)
-						.confirmationDialog("Undo Move", isPresented: $confirmUndo) {
-							Button("Undo") {
-								withAnimation {
-			//						if let to = prevMove?.to,
-			//						   let origin = prevMove?.origin {
-			//
-			//							chessGame.gameData[origin.coords.y-1][origin.coords.x-1] = origin.content
-			//							chessGame.gameData[to.coords.y-1][to.coords.x-1] = to.oldContent
-			//							prevMove = nil
-			//							selected = nil
-			//						}
-									if undoManager?.canUndo ?? false {
-										undoManager?.undo()
-									}
+					}) {
+						Label("Undo", systemImage: "arrow.uturn.backward")
+					}
+					.disabled(!(undoManager?.canUndo ?? false))
+					.confirmationDialog("Undo Move", isPresented: $confirmUndo) {
+						Button("Undo") {
+							withAnimation {
+								if undoManager?.canUndo ?? false {
+									undoManager?.undo()
 								}
 							}
-						} message: { Text("Undo Move") }
-				}
-
-				ToolbarItem(placement: .topBarTrailing) {
-					Menu("Options", systemImage: "ellipsis") {
-						
-//						Button("Redo", systemImage: "arrow.uturn.forward") {
-//							confirmRedo = true
-//						}.disabled(!(undoManager?.canRedo ?? false))
-
-						Toggle("Auto-Flip Board", isOn: $chessGame.autoFlipBoard)
-
-						let whoseTurnText = switch chessGame.whoseTurn { case .black: "Black"; case .white: "White" }
-						Section("\(whoseTurnText)'s turn") {
-							Toggle("Enforce Turns (works badly)", isOn: $chessGame.enforceTurns)
-							Button("Swap Turns", systemImage: "arrow.left.arrow.right") {
-								chessGame.whoseTurn.toggle()
-							}
 						}
+					} message: { Text("Undo Move") }
 
+					Menu {
+						Toggle("Auto-Flip Board", isOn: $chessGame.autoFlipBoard)
 						Divider()
-						Button("Reset Game", systemImage: "trash", role: .destructive) {
+						Button(role: .destructive, action: {
 							DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
 								withAnimation {
 									resetConfirmation.toggle()
-									chessGame.whoseTurn = .white
+									// Remove reference to chessGame.whoseTurn (commented out elsewhere)
 									boardIsFlipped = false
 									undoManager?.removeAllActions()
 								}
 							}
+						}) {
+							Label("Reset Game", systemImage: "trash")
 						}
+					} label: {
+						Label("Options", systemImage: "ellipsis")
 					}
 					.confirmationDialog("Reset Game?", isPresented: $resetConfirmation) {
 						Button("Reset", role: .destructive) {
@@ -618,7 +583,6 @@ struct ContentView: View {
 								if let data = try? JSONEncoder().encode(codable) {
 									UserDefaults.standard.set(data, forKey: "chess-data-json")
 								}
-		//						prevMove = nil
 								selected = nil
 							}
 						}
@@ -626,13 +590,12 @@ struct ContentView: View {
 						Text("Reset Game?")
 					}
 				}
-
 			}
 		}
-    }
+	}
 }
 
 #Preview {
-    ContentView()
+	ContentView()
 }
 
